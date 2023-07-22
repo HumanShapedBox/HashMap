@@ -23,7 +23,6 @@ public class HashMap<K, V> {
                 head = node;
                 return null;
             }
-
             Node currentNode = head;
             while(true){
                 if(currentNode.value.key.equals(entity.key)){
@@ -31,9 +30,7 @@ public class HashMap<K, V> {
                     currentNode.value.value = entity.value;
                     return temp;
                 }
-                if(currentNode.next != null){
-                    currentNode = currentNode.next;
-                }
+                if(currentNode.next != null){currentNode = currentNode.next;}
                 else {
                     currentNode.next = node;
                     return null;
@@ -41,6 +38,14 @@ public class HashMap<K, V> {
             }
         }
 
+        public V get(K key){
+            Node node = head;
+            while (node != null){
+                if(node.value.key.equals(key)){return (V)node.value.value;}
+                node = node.next;
+            }
+            return null;
+        }
     }
 
     private int calcBucketIndex(K key){
@@ -58,6 +63,13 @@ public class HashMap<K, V> {
         entity.key = key;
         entity.value = value;
         return (V)bucket.add(entity);
+    }
+
+    public V get(K key){
+        int index = calcBucketIndex(key);
+        Bucket bucket = buckets[index];
+        if(bucket == null){return null;}
+        return bucket.get(key);
     }
 
     public HashMap(){
