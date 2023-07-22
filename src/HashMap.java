@@ -69,7 +69,7 @@ public class HashMap<K, V> {
         int index = calcBucketIndex(key);
         Bucket bucket = buckets[index];
         if(bucket == null){return null;}
-        return bucket.get(key);
+        return (V)bucket.get(key);
     }
 
     public HashMap(){
