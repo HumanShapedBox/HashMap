@@ -1,6 +1,8 @@
 public class HashMap<K, V> {
 
     private static final int INIT_BUCKET_COUNT = 16;
+    private static final double LOAD_FACTOR = 0.5;
+    private int size;
     private Bucket[] buckets;
 
     public HashMap(){
@@ -80,7 +82,26 @@ public class HashMap<K, V> {
         return Math.abs(key.hashCode()) % buckets.length;
     }
 
+    private void recalc(){
+        size = 0;
+        Bucket<K, V>[] old = buckets;
+        buckets = new Bucket[old.length * 2];
+        for(int i = 0; i < old.length; i++){
+            Bucket<K, V> bucket = old[i];
+            if(bucket != null) {
+                Bucket.Node node = bucket.head;
+                while (node != null){
+                    put((K)node.value.key, (V)node.value.value);
+                    node = node.next;
+                }
+            }
+            old[i] = null;
+        }
+    }
+
     public V put(K key, V value){
+        if(buckets.length * LOAD_FACTOR <= size){recalc();}
+
         int index = calcBucketIndex(key);
         Bucket bucket = buckets[index];
         if(bucket == null){
@@ -90,14 +111,18 @@ public class HashMap<K, V> {
         Entity entity = new Entity();
         entity.key = key;
         entity.value = value;
-        return (V)bucket.add(entity);
+        V ret = (V)bucket.add(entity);
+        if(ret == null){size++;}
+        return ret;
     }
 
     public V get(K key){
         int index = calcBucketIndex(key);
         Bucket bucket = buckets[index];
         if(bucket == null){return null;}
-        return (V)bucket.get(key);
+        V ret = (V)bucket.get(key);
+        if(ret != null){size--;}
+        return ret;
     }
 
     public V remove(K key){
