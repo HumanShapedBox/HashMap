@@ -2,6 +2,14 @@ public class HashMap<K, V> {
 
     private static final int INIT_BUCKET_COUNT = 16;
     private Bucket[] buckets;
+
+    public HashMap(){
+        this(INIT_BUCKET_COUNT);
+    }
+
+    public HashMap(int initCount){
+        buckets = new Bucket[initCount];
+    }
     class Entity{
         K key;
         V value;
@@ -46,6 +54,26 @@ public class HashMap<K, V> {
             }
             return null;
         }
+
+        public V remove(K key){
+            if(head == null){return null;}
+            if(head.value.key.equals(key)){
+                V temp = (V)head.value.value;
+                head = head.next;
+                return temp;
+            }else {
+                Node node = head;
+                while(node.next != null){
+                    if(node.value.key.equals(key)){
+                        V temp = (V)node.next.value.value;
+                        node.next = node.next.next;
+                        return temp;
+                    }
+                    node = node.next;
+                }
+                return null;
+            }
+        }
     }
 
     private int calcBucketIndex(K key){
@@ -72,11 +100,11 @@ public class HashMap<K, V> {
         return (V)bucket.get(key);
     }
 
-    public HashMap(){
-        this(INIT_BUCKET_COUNT);
+    public V remove(K key){
+        int index = calcBucketIndex(key);
+        Bucket bucket = buckets[index];
+        if(bucket == null){return null;}
+        return (V)bucket.remove(key);
     }
 
-    public HashMap(int initCount){
-        buckets = new Bucket[initCount];
-    }
 }
