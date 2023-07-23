@@ -1,4 +1,6 @@
-public class HashMap<K, V> {
+import java.util.Iterator;
+
+public class HashMap<K, V>{
 
     private static final int INIT_BUCKET_COUNT = 16;
     private static final double LOAD_FACTOR = 0.5;
@@ -76,6 +78,13 @@ public class HashMap<K, V> {
                 return null;
             }
         }
+
+        public void showData(){
+
+//            for (V data: ) {
+//
+//            }
+        }
     }
 
     private int calcBucketIndex(K key){
@@ -132,4 +141,18 @@ public class HashMap<K, V> {
         return (V)bucket.remove(key);
     }
 
+    public void showData(){
+        Bucket<K, V>[] data = buckets;
+        if(data == null){System.out.println("No data");}
+        for(int i = 0; i < data.length; i++) {
+            Bucket<K, V> bucket = data[i];
+            if(data != null){
+                Bucket.Node node = bucket.head;
+                while (node != null){
+                    bucket.showData();
+                    node = node.next;
+                }
+            }
+        }
+    }
 }
