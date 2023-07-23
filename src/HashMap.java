@@ -148,27 +148,13 @@ public class HashMap<K, V>{
         Bucket<K, V>[] data = buckets;
         if(data == null){System.out.println("No data");}
         for (Bucket<K, V> item: data) {
-            if(data != null){
-                Bucket.Node node = item.head;
-                System.out.println("Key: " + node.value.key.toString() + " Value: " + node.value.value.toString());
+            Bucket<K, V> itemData = item;
+            if(itemData != null){
+                Bucket.Node node = itemData.head;
+                if(itemData != null){
+                    System.out.println("Key: " + node.value.key.toString() + " Value: " + node.value.value.toString());
+                }
             }
         }
     }
 }
-
-//    private void recalc(){
-//        size = 0;
-//        Bucket<K, V>[] old = buckets;
-//        buckets = new Bucket[old.length * 2];
-//        for(int i = 0; i < old.length; i++){
-//            Bucket<K, V> bucket = old[i];
-//            if(bucket != null) {
-//                Bucket.Node node = bucket.head;
-//                while (node != null){
-//                    put((K)node.value.key, (V)node.value.value);
-//                    node = node.next;
-//                }
-//            }
-//            old[i] = null;
-//        }
-//    }
