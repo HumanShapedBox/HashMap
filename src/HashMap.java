@@ -1,4 +1,5 @@
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HashMap<K, V>{
 
@@ -79,12 +80,14 @@ public class HashMap<K, V>{
             }
         }
 
-        public void showData(){
-
-//            for (V data: ) {
-//
+//        public void showData(Node node){
+//            List<String> data = new ArrayList<>();
+//            data.add(node.value.key.toString());
+//            data.add(node.value.value.toString());
+//            for (String item: data) {
+//                System.out.println(item);
 //            }
-        }
+//        }
     }
 
     private int calcBucketIndex(K key){
@@ -144,15 +147,28 @@ public class HashMap<K, V>{
     public void showData(){
         Bucket<K, V>[] data = buckets;
         if(data == null){System.out.println("No data");}
-        for(int i = 0; i < data.length; i++) {
-            Bucket<K, V> bucket = data[i];
+        for (Bucket<K, V> item: data) {
             if(data != null){
-                Bucket.Node node = bucket.head;
-                while (node != null){
-                    bucket.showData();
-                    node = node.next;
-                }
+                Bucket.Node node = item.head;
+                System.out.println("Key: " + node.value.key.toString() + " Value: " + node.value.value.toString());
             }
         }
     }
 }
+
+//    private void recalc(){
+//        size = 0;
+//        Bucket<K, V>[] old = buckets;
+//        buckets = new Bucket[old.length * 2];
+//        for(int i = 0; i < old.length; i++){
+//            Bucket<K, V> bucket = old[i];
+//            if(bucket != null) {
+//                Bucket.Node node = bucket.head;
+//                while (node != null){
+//                    put((K)node.value.key, (V)node.value.value);
+//                    node = node.next;
+//                }
+//            }
+//            old[i] = null;
+//        }
+//    }

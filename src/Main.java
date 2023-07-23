@@ -10,8 +10,12 @@ public class Main {
         gimmeReturn = testMap.put("213", "moe");
         gimmeReturn = testMap.put("132","Catch a tiger by the toe");
 
+        testMap.showData();
+
         gimmeReturn = testMap.get("123");
 
         gimmeReturn = testMap.remove("132");
+
+
     }
 }
